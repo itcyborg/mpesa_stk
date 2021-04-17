@@ -40,14 +40,14 @@
             // without cache
 //            $token=json_decode(self::authenticate($account))->access_token;
             $account=Config::getAccount($account);
-            $url = trim(env('SAFARICOM_BASE_ENDPOINT','https://api.safaricom.co.ke'),'/').'/mpesa/stkpush/v1/processrequest';
+            $url = trim(config('mpesa.endpoints.base'),'/').config('mpesa.endpoints.stk');
             $headers=[
                 "Content-Type"=>'application/json',
                 'Authorization'=>'Bearer '.$token
             ];
             $timestamp=Carbon::now()->format('Ymdhis');
             $password=self::generatePassword($account->shortcode,$account->passkey,$timestamp);
-            $callback=env('SAFARICOM_STK_CALLBACK');
+            $callback=config('mpesa.endpoints.stk_callback');
 
             $curl_post_data = array(
                 //Fill in the request parameters with valid values
@@ -78,7 +78,7 @@
         private static function authenticate($account)
         {
             try {
-                $endpoint=env('SAFARICOM_BASE_ENDPOINT','https://api.safaricom.co.ke').'/oauth/v1/generate?grant_type=client_credentials';
+                $endpoint=config('mpesa.endpoints.base').config('mpesa.endpoints.auth');
                 $credentials=Config::getAccount($account);
                 $secret=base64_encode($credentials->consumer_key . ':' . $credentials->consumer_secret);
                 $headers=[
@@ -116,15 +116,14 @@
         {
             $token=json_decode(self::authenticate($account))->access_token;
             $account=Config::getAccount($account);
-            $url = trim(env('SAFARICOM_BASE_ENDPOINT','https://api.safaricom.co.ke'),'/').'/mpesa/stkpushquery/v1/query';
-//            dd($url);
+            $url = trim(config('mpesa.endpoints.base'),'/').config('mpesa.endpoints.query_stk');
             $headers=[
                 "Content-Type"=>'application/json',
                 'Authorization'=>'Bearer '.$token
             ];
             $timestamp=Carbon::now()->format('Ymdhis');
             $password=self::generatePassword($account->shortcode,$account->passkey,$timestamp);
-            $callback=env('SAFARICOM_STK_CALLBACK');
+            $callback=config('mpesa.endpoints.stk_callback');
 
             $curl_post_data = array(
                 //Fill in the request parameters with valid values
@@ -150,7 +149,7 @@
         {
             $token=json_decode(self::authenticate($account))->access_token;
             $account=Config::getAccount($account);
-            $url = trim(env('SAFARICOM_BASE_ENDPOINT','https://api.safaricom.co.ke'),'/').'/mpesa/c2b/v1/registerurl';
+            $url = trim(config('mpesa.endpoints.base'),'/').'/mpesa/c2b/v1/registerurl';
             $headers=[
                 "Content-Type"=>'application/json',
                 'Authorization'=>'Bearer '.$token

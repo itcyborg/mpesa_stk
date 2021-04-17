@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Ecwid\Ecwid;
 use App\Traits\PaymentHelpers;
 use Illuminate\Http\Request;
 
@@ -50,7 +49,7 @@ class PaymentsReceiver extends Controller
             'transaction_time'=>$data['TransTime']
         ];
         //log payment
-//        $this->logPayment($data);
+        $this->logPayment($data);
         return $this->confirmTransaction($data);
     }
 
@@ -104,28 +103,5 @@ class PaymentsReceiver extends Controller
     public function pullReceiver(Request $request)
     {
         $this->logTransactions($request->all(),'PULL');
-    }
-
-    private function validatePaybill(array $data)
-    {
-        $data=[
-            'phone_no'=>$data['MSISDN'],
-            'sender_first_name'=>$data['FirstName'],
-            'sender_middle_name'=>$data['MiddleName'],
-            'sender_last_name'=>$data['LastName'],
-            'transaction_id'=>$data['TransID'],
-            'amount'=>$data['TransAmount'],
-            'business_number'=>$data['BusinessShortCode'],
-            'acc_no'=>$data['BillRefNumber'],
-            'transaction_type'=>$data['TransactionType'],
-            'transaction_time'=>$data['TransTime']
-        ];
-
-        if(fnmatch('EX*',$data['acc_no']) || fnmatch('ex*',$data['acc_no'])){
-            $acc_no=strtoupper($data['acc_no']);
-            $ecwid=new Ecwid($acc_no,$data['amount']);
-            echo $ecwid->validateTransaction($data['amount']);
-            return;
-        }
     }
 }
