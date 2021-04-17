@@ -13,7 +13,10 @@
                 'consumer_secret'=>'',
                 'shortcode'=>'',
                 'passkey'=>'',
-                'nominated'=>'' // phone number used to register paybill
+                'nominated'=>'', // phone number used to register paybill
+                'command_id'=>'', // for b2c
+                'security_credential'=>'',
+                'initiator'=>''
             ];
         }
     }

@@ -21,7 +21,7 @@ trait PaymentHelpers
         MpesaLogs::create(['content'=>$data,'type'=>$type]);
     }
 
-    public function initiateSTK($phone,int $amount,$reference,$description,$channel='WEB',$user_id,$callback=null,$type=null,$account='default')
+    public function initiateSTK($phone,int $amount,$reference,$description,$channel='WEB',$user_id=null,$callback=null,$type=null,$account='default')
     {
         try {
             $data=json_encode(MPesa::STK($phone,$amount,$reference,$description,$account));
@@ -62,6 +62,7 @@ trait PaymentHelpers
 
     public function confirmTransaction($data)
     {
+        // example of confirm transaction
         if(fnmatch('BILL-*',$data['acc_no']) || fnmatch('BILL',$data['acc_no'])){
             $acc_no=strtoupper($data['acc_no']);
             $bill_id=explode('-',$acc_no)[1];

@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+Route::post('initiateStk',[\App\Http\Controllers\MpesaController::class,'initStk']);
+Route::post(config('mpesa.endpoints.stk_callback'),[\App\Http\Controllers\PaymentsReceiver::class,'receive']);
+Route::post(config('mpesa.endpoints.b2c_result'),[\App\Http\Controllers\PaymentsReceiver::class,'b2cResult']);
+Route::post(config('mpesa.endpoints.b2c_queue_timeout'),[\App\Http\Controllers\PaymentsReceiver::class,'b2cTimeout']);
+Route::post(config('mpesa.endpoints.b2c_endpoint'),[\App\Http\Controllers\PaymentsReceiver::class,'initiateB2C']);

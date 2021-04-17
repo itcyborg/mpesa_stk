@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MPesa\MPesa;
 use App\Traits\PaymentHelpers;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,6 @@ class PaymentsReceiver extends Controller
         // check if is stk callback
         if(isset($request->all()['Body']['stkCallback'])){
             $this->stk($request->all());
-            return $this->initiateSTKCallback($request->all());
         }
 
         // paybill/ till
@@ -103,5 +103,22 @@ class PaymentsReceiver extends Controller
     public function pullReceiver(Request $request)
     {
         $this->logTransactions($request->all(),'PULL');
+    }
+
+    public function b2cResult(Request $request)
+    {
+
+    }
+
+
+    public function b2cTimeout(Request $request)
+    {
+
+    }
+
+    public function initiateB2C(Request $request)
+    {
+        $account=''; // account name/ number
+        return MPesa::B2C('254'.(int) $request->phone,$request->amount,$account,$request->remarks);
     }
 }

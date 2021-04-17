@@ -235,4 +235,42 @@
 
             }
         }
+
+        public static function B2C($phone, $amount, $account, $remarks)
+        {
+            try {
+                $token = json_decode(self::authenticate($account))->access_token;
+                $account = Config::getAccount($account);
+                $url = config('mpesa.endpoints.b2c_endpoint');
+
+                $headers = [
+                    "Content-Type" => 'application/json',
+                    'Authorization' => 'Bearer ' . $token
+                ];
+
+
+                $security_credential=$account->security_credential;
+
+                $curl_post_data = array(
+                    //Fill in the request parameters with valid values
+                    'InitiatorName' => $account->initiator,
+                    'SecurityCredential' => $security_credential,
+                    'CommandID' => $account->command_id,
+                    'Amount' => $amount,
+                    'PartyA' => $account->shortcode,
+                    'PartyB' => $phone,
+                    'Remarks' => $remarks,
+                    'QueueTimeOutURL' => config('mpesa.endpoints.b2c_queue_timeout'),
+                    'ResultURL' => config('mpesa.endpoints.b2c_result'),
+                    'Occasion' => 'test'
+                );
+
+
+                $response = GuzzleClient::postJson($url, $headers, $curl_post_data);
+                return json_decode($response, false);
+            }catch (Throwable $e){
+                report($e);
+            }
+        }
+
     }
