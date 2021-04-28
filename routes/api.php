@@ -20,3 +20,4 @@ Route::post(config('mpesa.endpoints.stk_callback'),[\App\Http\Controllers\Paymen
 Route::post(config('mpesa.endpoints.b2c_result'),[\App\Http\Controllers\PaymentsReceiver::class,'b2cResult']);
 Route::post(config('mpesa.endpoints.b2c_queue_timeout'),[\App\Http\Controllers\PaymentsReceiver::class,'b2cTimeout']);
 Route::post(config('mpesa.endpoints.b2c_endpoint'),[\App\Http\Controllers\PaymentsReceiver::class,'initiateB2C']);
+Route::post('account',[\App\MPesa\Config::class,'saveAccount']);

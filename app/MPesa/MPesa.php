@@ -159,7 +159,7 @@
                 //Fill in the request parameters with valid values
                 "ConfirmationURL"=> env('SAFARICOM_STK_CALLBACK'),
 	            "ValidationURL"=> env('SAFARICOM_STK_CALLBACK').'/validate',
-                'ResponseType'=>'Completed',
+                'ResponseType'=>'Completed', // Cancelled
                 'ShortCode'=>$account->shortcode
             );
 

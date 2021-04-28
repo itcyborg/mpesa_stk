@@ -11,8 +11,8 @@ class MpesaController extends Controller
     public function initStk(Request $request)
     {
         $request->validate([
-            'phone'=>'number|required',
-            'amount'=>'number|required',
+            'phone'=>'numeric|required',
+            'amount'=>'numeric|required',
             'reference'=>'required',
             'description'=>'required'
         ]);

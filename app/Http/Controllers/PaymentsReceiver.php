@@ -30,7 +30,7 @@ class PaymentsReceiver extends Controller
         }
 
         // paybill/ till
-        if(isset($request->all()['TransactionType'])=="Pay Bill"){
+        if(isset($request->all()['TransactionType'])=="Pay Bill" ||isset($request->all()['TransactionType'])=='Till Number'){
             $this->paybill($request->all());
         }
     }
