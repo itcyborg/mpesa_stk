@@ -37,7 +37,7 @@
                 ]
             );
 
-            return Account::first()->details;
+            return Account::orderBy('created_at','desc')->paginate(50);
 
             return Account::create([
                 'accountName'=>'default1',
